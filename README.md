@@ -84,3 +84,4 @@ This project uses **Vite** instead of Laravel Mix for faster builds and better d
 - Optimized production builds
 # blog
 # blog
+# new-blog
