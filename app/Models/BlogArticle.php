@@ -17,6 +17,7 @@ class BlogArticle extends Model
    */
   protected $fillable = [
     'category_id',
+    'author_id',
     'page_title',
     'meta_desc',
     'title',
@@ -33,5 +34,13 @@ class BlogArticle extends Model
   public function category()
   {
     return $this->belongsTo(BlogCategory::class, 'category_id');
+  }
+  public function comments()
+  {
+      return $this->morphMany(Comment::class, 'commentable');
+  }
+  public function scopeFeatured($query)
+  {
+    return $query->where('is_featured', true)->where('status', 'published'); // Ensure only published articles are shown
   }
 }
