@@ -18,12 +18,26 @@ class BlogCategory extends Model
    */
   protected $fillable = [
     'page_title',
+    'author_id',
     'meta_desc',
     'title',
     'slug',
     'image',
     'description',
     'status',
+    'approval',
+    'views_count'
+  ];
+  
+  /**
+   * The attributes that should be cast.
+   *
+   * @var array
+   */
+  protected $casts = [
+    'status' => 'boolean',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
   ];
 
   /**
@@ -32,6 +46,14 @@ class BlogCategory extends Model
    */
   public function articles()
   {
-    return $this->hasMany(BlogArticle::class);
+    return $this->hasMany(BlogArticle::class, 'category_id');
+  }
+  
+  /**
+   * Get the name attribute (alias for title)
+   */
+  public function getNameAttribute()
+  {
+    return $this->title;
   }
 }

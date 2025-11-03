@@ -1,0 +1,64 @@
+@extends('layouts2.app')
+
+@section('title', 'About Us - Crystal Write Hub')
+
+@section('content')
+<div class="min-h-screen py-12">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <div class="text-center mb-12 animate-fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                About <span class="gradient-text">ModernBlog</span>
+            </h1>
+            <p class="text-xl text-muted-foreground">
+                Empowering writers and readers through quality content
+            </p>
+        </div>
+
+        <div class="glass-card p-8 md:p-12 mb-8 space-y-6">
+            <h2 class="text-3xl font-bold mb-4">Our Mission</h2>
+            <p class="text-muted-foreground leading-relaxed text-lg">
+                ModernBlog is dedicated to providing a platform where passionate writers can share their knowledge, experiences, and insights with a global audience. We believe in the power of quality content to educate, inspire, and connect people across the world.
+            </p>
+
+            <h2 class="text-3xl font-bold mb-4 mt-8">What We Offer</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-3">Quality Content</h3>
+                    <p class="text-muted-foreground">
+                        Carefully curated articles covering technology, design, business, and more.
+                    </p>
+                </div>
+                <div class="glass p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-3">Expert Writers</h3>
+                    <p class="text-muted-foreground">
+                        Content created by industry professionals and passionate enthusiasts.
+                    </p>
+                </div>
+                <div class="glass p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-3">Modern Design</h3>
+                    <p class="text-muted-foreground">
+                        Beautiful, responsive interface with glassmorphism effects.
+                    </p>
+                </div>
+                <div class="glass p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-3">Community Focus</h3>
+                    <p class="text-muted-foreground">
+                        Building a community of learners and knowledge sharers.
+                    </p>
+                </div>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-4 mt-8">Our Story</h2>
+            <p class="text-muted-foreground leading-relaxed text-lg">
+                Founded in 2024, ModernBlog started as a simple idea: create a beautiful, modern platform for sharing knowledge. Today, we've grown into a thriving community of writers and readers who are passionate about learning and sharing.
+            </p>
+        </div>
+
+        <div class="text-center">
+            <a href="{{ route('contact') }}" class="btn-gradient text-white px-8 py-4 rounded-lg font-semibold text-lg hover:scale-105 transition-bounce inline-block">
+                Get In Touch
+            </a>
+        </div>
+    </div>
+</div>
+@endsection
