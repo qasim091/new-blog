@@ -46,4 +46,23 @@ class User extends Authenticatable
   protected $casts = [
     'email_verified_at' => 'datetime',
   ];
+  
+  /**
+   * Get the user's avatar
+   */
+  public function getAvatarAttribute()
+  {
+    if ($this->profile_photo) {
+      return Storage::url($this->profile_photo);
+    }
+    return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=random';
+  }
+  
+  /**
+   * Get the user's bio
+   */
+  public function getBioAttribute()
+  {
+    return $this->bio ?? 'No bio available.';
+  }
 }
