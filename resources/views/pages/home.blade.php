@@ -97,7 +97,7 @@
                 <div class="order-1 md:order-2">
                     <a href="{{ route('blog.show', $featuredPost->slug) }}">
                         <div class="relative overflow-hidden rounded-2xl shadow-[var(--shadow-hover)] group-hover:shadow-[var(--shadow-elevated)] transition-smooth">
-                            <img src="{{ $featuredPost->image }}" alt="{{ $featuredPost->title }}" class="w-full h-80 object-cover transition-smooth group-hover:scale-110">
+                            <img src="{{ asset('storage/'. $featuredPost->image ) }}" alt="{{ $featuredPost->title }}" class="w-full h-80 object-cover transition-smooth group-hover:scale-110">
                             <div class="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>
                         </div>
                     </a>

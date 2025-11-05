@@ -27,27 +27,27 @@ class AppServiceProvider extends ServiceProvider
    *
    * @return void
    */
-  public function boot(AppSetting $appSetting, WebSetting $webSetting)
-  {
-    // Get admin dashbaord basic settings
-    $appSettings = $appSetting->where('id', 1)->first();
-    View::share('appSettings', $appSettings);
+//   public function boot(AppSetting $appSetting, WebSetting $webSetting)
+//   {
+//     // Get admin dashbaord basic settings
+//     $appSettings = $appSetting->where('id', 1)->first();
+//     View::share('appSettings', $appSettings);
 
-    // Get website basic settings
-    $webSettings = $webSetting->where('id', 1)->first();
-    View::share('webSettings', $webSettings);
+//     // Get website basic settings
+//     $webSettings = $webSetting->where('id', 1)->first();
+//     View::share('webSettings', $webSettings);
 
-    // Custom blade directives //
-    Blade::if('level', function ($level) {
-      return Auth::check() && Auth::user()->level() == $level;
-    });
+//     // Custom blade directives //
+//     Blade::if('level', function ($level) {
+//       return Auth::check() && Auth::user()->level() == $level;
+//     });
 
-    Blade::if('permission', function ($permission) {
-      return Auth::check() && Auth::user()->checkPermission($permission);
-    });
-    // Custom blade directives //
+//     Blade::if('permission', function ($permission) {
+//       return Auth::check() && Auth::user()->checkPermission($permission);
+//     });
+//     // Custom blade directives //
 
-    // Use Tailwind pagination for Laravel 12
-    Paginator::useTailwind();
-  }
+//     // Use Tailwind pagination for Laravel 12
+//     Paginator::useTailwind();
+//   }
 }
