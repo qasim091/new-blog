@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\WebSetting;
 use App\Models\Page;
-use App\Models\Tags;
+// use App\Models\Tags;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\BlogArticle;
@@ -82,13 +82,18 @@ public function home()
                 'height' => 80,
             ],
         ],
-        'potentialAction' => [
-            '@type' => 'SearchAction',
-            'target' => route('blog.search') . '?q={search_term_string}',
-            'query-input' => 'required name=search_term_string',
-        ],
+        // 'potentialAction' => [
+        //     '@type' => 'SearchAction',
+        //     'target' => route('blog.search') . '?q={search_term_string}',
+        //     'query-input' => 'required name=search_term_string',
+        // ],
     ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-
+    // Get featured post
+    $featuredPost = BlogArticle::where('status', 1)
+      ->where('is_featured', true)
+      ->with(['category', 'author'])
+      ->latest()
+      ->first();
     $webPageSchemaMarkup = json_encode([
         '@context' => 'https://schema.org',
         '@type' => 'WebPage',
@@ -182,7 +187,8 @@ $recentposts = BlogArticle::where('status', '1')
         'setting',
         'categories',
         'blogs',
-        'recentposts'
+        'recentposts',
+        'featuredPost'
     ));
 }
 
@@ -274,7 +280,7 @@ public function contact()
 
     $schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-    return view('pages.contact-us', compact('page', 'setting', 'schemaMarkup'));
+    return view('pages.contact', compact('page', 'setting', 'schemaMarkup'));
 }
 
 
@@ -337,7 +343,7 @@ public function about()
 
     $schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-    return view('pages.about-us', compact('page', 'setting', 'schemaMarkup'));
+    return view('pages.about', compact('page', 'setting', 'schemaMarkup'));
 }
 
 
@@ -482,34 +488,34 @@ public function bloglist(Request $request, $categorySlug = null)
     $page = Page::where('slug', 'blog-listing')->first();
     $setting = WebSetting::first();
     $site_name = config('seotools.opengraph.defaults.site_name', config('app.name'));
-if ($categorySlug) {
-    $category = BlogCategory::where('slug', $categorySlug)
-        ->where('status', 1)
-        ->first();
-
-    if ($category) {
-        $blogs = BlogArticle::where('blog_category_id', $category->id)
+    if ($categorySlug) {
+        $category = BlogCategory::where('slug', $categorySlug)
             ->where('status', 1)
+            ->first();
+
+        if ($category) {
+            $blogs = BlogArticle::where('category_id', $category->id)
+                ->where('status', 1)
+                ->orderBy('updated_at', 'desc') // newest first
+                ->paginate(10);
+        } else {
+            $blogs = collect();
+        }
+    } else {
+        $blogs = BlogArticle::where('status', 1)
+            ->whereHas('category', function ($query) {
+                $query->where('status', 1);
+            })
             ->orderBy('updated_at', 'desc') // newest first
             ->paginate(10);
-    } else {
-        $blogs = collect();
     }
-} else {
-    $blogs = BlogArticle::where('status', 1)
-        ->whereHas('category', function ($query) {
-            $query->where('status', 1);
-        })
-        ->orderBy('updated_at', 'desc') // newest first
-        ->paginate(10);
-}
 
     // Attach instructor data
     foreach ($blogs as $bc) {
         $bc->instructor = User::find($bc->author_id);
     }
 
-    $tags = Tags::all();
+    // $tags = Tags::all();
     $categories = BlogCategory::orderby('views_count', 'desc')->take(7)->get();
     $recentposts = BlogArticle::orderby('created_at', 'desc')->take(4)->get();
 
@@ -550,7 +556,7 @@ foreach ($blogs as $index => $blog) {
     $schema['itemListElement'][] = array_filter([
         "@type" => "ListItem",
         "position" => $index + 1,
-        "url" => route('blogshow', $blog->slug),
+        "url" => route('blog.show', $blog->slug),
         "name" => $blog->title,
         "description" => $blog->meta_desc ?? $blog->excerpt,
         "image" => $blog->image ? asset('storage/' . $blog->image) : null,
@@ -609,8 +615,8 @@ $schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
 
     $breadcrumbsMarkup = json_encode($breadcrumbs, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-    return view("pages.bloglisting", compact(
-        'page', 'setting', 'blogs', 'categories', 'recentposts', 'tags', 'schemaMarkup', 'breadcrumbsMarkup'
+    return view("pages.blog.blog", compact(
+        'page', 'setting', 'blogs', 'categories', 'recentposts', 'schemaMarkup', 'breadcrumbsMarkup'
     ));
 }
 
@@ -717,7 +723,7 @@ $allArticles = BlogArticle::where('status', '1')
 
     $schemaMarkup = json_encode($schemaData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-    return view('pages.blogcategories', compact(
+    return view('pages.categories', compact(
         'page',
         'setting',
         'categories',
@@ -746,23 +752,26 @@ public function blogshow(BlogArticle $articleArticle, $slug)
     $meta_desc = $article->meta_desc ?? "Description of the main article";
     $instructor = User::find($article->author_id);
     $site_name = config('seotools.opengraph.defaults.site_name', config('app.name'));
-    $tags = Tags::all();
+    // $tags = Tags::all();
     $categories = BlogCategory::orderby('views_count', 'desc')->where('status','1')->take(7)->get();
     $recentposts = BlogArticle::orderby('updated_at', 'desc')->where('status','1')->take(4)->get();
 
-    $comments = $article->comments()
-        ->whereNull('parent_id')
-        ->where('is_approved', true)
-        ->with(['replies' => function ($query) {
-            $query->where('is_approved', true);
-        }])
-        ->get();
+    // $comments = $article->comments()
+    //     ->whereNull('parent_id')
+    //     ->where('is_approved', true)
+    //     ->with(['replies' => function ($query) {
+    //         $query->where('is_approved', true);
+    //     }])
+    //     ->get();
 
-    $popularposts = BlogArticle::with('category')->where('status', '1')
-        ->where('id', '!=', $article->id)
-        ->orderBy('views_count', 'desc')
-        ->take(3)
-        ->get();
+    // Get related posts from same category
+    $relatedPosts = BlogArticle::where('category_id', $article->category_id)
+      ->where('id', '!=', $article->id)
+      ->where('status', 1)
+      ->with(['category', 'author'])
+      ->latest()
+      ->take(3)
+      ->get();
 
     // ------------------------------
     // ✅ SEO Meta and Open Graph
@@ -804,11 +813,11 @@ public function blogshow(BlogArticle $articleArticle, $slug)
         "author" => [
             "@type" => "Person",
             "name" => $instructor->name ?? 'Admin',
-            "sameAs" => [
-                $instructor->twitter ? "https://twitter.com/{$instructor->twitter}" : null,
-                $instructor->insta ? "https://instagram.com/{$instructor->insta}" : null,
-                // Add more social links if available
-            ]
+            // "sameAs" => [
+            //     $instructor->twitter ? "https://twitter.com/{$instructor->twitter}" : null,
+            //     $instructor->insta ? "https://instagram.com/{$instructor->insta}" : null,
+            //     // Add more social links if available
+            // ]
         ],
         "publisher" => [
             "@type" => "Organization",
@@ -823,7 +832,7 @@ public function blogshow(BlogArticle $articleArticle, $slug)
     ];
 
     // Remove null values (for example, missing social URLs)
-    $schemaData['author']['sameAs'] = array_values(array_filter($schemaData['author']['sameAs']));
+    // $schemaData['author']['sameAs'] = array_values(array_filter($schemaData['author']['sameAs']));
 
     $schemaMarkup = json_encode($schemaData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
@@ -857,16 +866,16 @@ public function blogshow(BlogArticle $articleArticle, $slug)
 
     $breadcrumbsMarkup = json_encode($breadcrumbs, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-    return view("pages.blogshow", compact(
+    return view("pages.blog.blog_details", compact(
         'instructor',
         'page',
-        'popularposts',
+        'relatedPosts',
         'setting',
         'article',
-        'tags',
+        // 'tags',
         'categories',
         'recentposts',
-        'comments',
+        // 'comments',
         'schemaMarkup',
         'breadcrumbsMarkup'
     ));

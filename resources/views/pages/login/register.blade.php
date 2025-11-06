@@ -1,13 +1,13 @@
 @extends('layouts2.app')
 
-@section('title', 'Register - Crystal Write Hub')
+@section('title', "$page->page_name")
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center py-12 px-4 relative overflow-hidden">
     <!-- Background decorations -->
     <div class="absolute top-20 right-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-float"></div>
     <div class="absolute bottom-20 left-10 w-96 h-96 bg-primary/15 rounded-full blur-3xl animate-float" style="animation-delay: 1s"></div>
-    
+
     <div class="w-full max-w-md relative z-10">
         <!-- Header -->
         <div class="text-center mb-8 animate-fade-in">
@@ -35,12 +35,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </div>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
                             value="{{ old('name') }}"
-                            required 
+                            required
                             autofocus
                             class="glass-strong w-full pl-12 pr-4 py-3 rounded-xl border-2 focus:border-primary focus:outline-none transition-smooth @error('name') border-red-500 @enderror"
                             placeholder="John Doe"
@@ -67,10 +67,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
                             </svg>
                         </div>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
                             value="{{ old('email') }}"
                             required
                             class="glass-strong w-full pl-12 pr-4 py-3 rounded-xl border-2 focus:border-primary focus:outline-none transition-smooth @error('email') border-red-500 @enderror"
@@ -98,10 +98,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                             </svg>
                         </div>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
                             required
                             class="glass-strong w-full pl-12 pr-4 py-3 rounded-xl border-2 focus:border-primary focus:outline-none transition-smooth @error('password') border-red-500 @enderror"
                             placeholder="••••••••"
@@ -131,10 +131,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
                         </div>
-                        <input 
-                            type="password" 
-                            id="password_confirmation" 
-                            name="password_confirmation" 
+                        <input
+                            type="password"
+                            id="password_confirmation"
+                            name="password_confirmation"
                             required
                             class="glass-strong w-full pl-12 pr-4 py-3 rounded-xl border-2 focus:border-primary focus:outline-none transition-smooth"
                             placeholder="••••••••"
@@ -145,24 +145,24 @@
                 <!-- Terms & Conditions -->
                 <div>
                     <label class="flex items-start gap-3 cursor-pointer group">
-                        <input 
-                            type="checkbox" 
-                            name="terms" 
+                        <input
+                            type="checkbox"
+                            name="terms"
                             required
                             class="mt-1 w-4 h-4 rounded border-2 text-primary focus:ring-primary focus:ring-offset-0 transition-smooth"
                         >
                         <span class="text-sm text-muted-foreground group-hover:text-foreground transition-smooth">
-                            I agree to the 
-                            <a href="#" class="font-semibold text-primary hover:text-accent transition-smooth">Terms of Service</a> 
-                            and 
+                            I agree to the
+                            <a href="#" class="font-semibold text-primary hover:text-accent transition-smooth">Terms of Service</a>
+                            and
                             <a href="#" class="font-semibold text-primary hover:text-accent transition-smooth">Privacy Policy</a>
                         </span>
                     </label>
                 </div>
 
                 <!-- Submit Button -->
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     class="w-full btn-gradient text-white py-3 rounded-xl font-bold text-lg shadow-[var(--shadow-hover)] hover:shadow-[var(--shadow-elevated)] hover:scale-[1.02] transition-bounce"
                 >
                     Create Account
@@ -182,7 +182,7 @@
 
                 <!-- Social Registration (Optional) -->
                 <div class="grid grid-cols-2 gap-4">
-                    <button 
+                    <button
                         type="button"
                         class="glass-strong border-2 hover:bg-background/50 transition-bounce hover:scale-105 px-4 py-3 rounded-xl font-semibold flex items-center justify-center gap-2"
                     >
@@ -194,7 +194,7 @@
                         </svg>
                         Google
                     </button>
-                    <button 
+                    <button
                         type="button"
                         class="glass-strong border-2 hover:bg-background/50 transition-bounce hover:scale-105 px-4 py-3 rounded-xl font-semibold flex items-center justify-center gap-2"
                     >
@@ -209,7 +209,7 @@
             <!-- Login Link -->
             <div class="mt-8 text-center">
                 <p class="text-muted-foreground">
-                    Already have an account? 
+                    Already have an account?
                     <a href="{{ route('login') }}" class="font-bold text-primary hover:text-accent transition-smooth">
                         Sign in instead
                     </a>

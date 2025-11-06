@@ -1,4 +1,7 @@
 <footer class="glass-strong mt-20 border-t shadow-[var(--shadow-subtle)]">
+    @php
+        $setting = App\Models\WebSetting::first();
+    @endphp
     <div class="container mx-auto px-4 py-16">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
             <div>
@@ -12,18 +15,18 @@
                 <h4 class="font-bold text-lg mb-4">Quick Links</h4>
                 <ul class="space-y-3">
                     <li>
-                        <a href="{{ route('blog.index') }}" class="text-muted-foreground hover:text-foreground transition-smooth hover:translate-x-1 inline-block font-medium">
-                            All Posts
+                        <a href="{{ route('disclaimer') }}" class="text-muted-foreground hover:text-foreground transition-smooth hover:translate-x-1 inline-block font-medium">
+                            Discalimer
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('categories') }}" class="text-muted-foreground hover:text-foreground transition-smooth hover:translate-x-1 inline-block font-medium">
-                            Categories
+                        <a href="{{ route('privacy-policy') }}" class="text-muted-foreground hover:text-foreground transition-smooth hover:translate-x-1 inline-block font-medium">
+                            Privacy Policy
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('about') }}" class="text-muted-foreground hover:text-foreground transition-smooth hover:translate-x-1 inline-block font-medium">
-                            About Us
+                        <a href="{{ route('terms-and-conditions') }}" class="text-muted-foreground hover:text-foreground transition-smooth hover:translate-x-1 inline-block font-medium">
+                            Terms & Condition
                         </a>
                     </li>
                 </ul>
@@ -78,7 +81,7 @@
         </div>
 
         <div class="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; {{ date('Y') }} ModernBlog. All rights reserved.</p>
+            <p>&copy; {{$setting->theme_footer}}</p>
         </div>
     </div>
 </footer>

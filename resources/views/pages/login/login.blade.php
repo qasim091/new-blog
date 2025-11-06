@@ -1,6 +1,6 @@
 @extends('layouts2.app')
 
-@section('title', 'Login - Crystal Write Hub')
+@section('title', "$page->page_name")
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center py-12 px-4 relative overflow-hidden">

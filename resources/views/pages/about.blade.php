@@ -1,14 +1,19 @@
 @extends('layouts2.app')
 
-@section('title', 'About Us - Crystal Write Hub')
+@section('title', "$page->page_name")
 
 @section('content')
 <div class="min-h-screen py-12">
     <div class="container mx-auto px-4 max-w-4xl">
         <div class="text-center mb-12 animate-fade-in">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6">
-                About <span class="gradient-text">ModernBlog</span>
-            </h1>
+@php
+    $titleParts = explode(' ', $page->title);
+@endphp
+
+<h1 class="text-5xl md:text-6xl font-bold mb-6">
+    {{ $titleParts[0] ?? '' }}
+    <span class="gradient-text">{{ $titleParts[1] ?? '' }}</span>
+</h1>
             <p class="text-xl text-muted-foreground">
                 Empowering writers and readers through quality content
             </p>

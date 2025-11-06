@@ -1,6 +1,6 @@
 @extends('layouts2.app')
 
-@section('title', $category->name . ' - Crystal Write Hub')
+@section('title', "$page->page_name")
 
 @section('content')
 <div class="min-h-screen py-12">

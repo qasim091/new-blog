@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,8 @@ class RegisteredUserController extends Controller
    */
   public function create()
   {
-    return view('pages.login.register');
+    $page = Page::where('slug','sign-in')->first();
+    return view('pages.login.register',compact('page'));
   }
 
   /**

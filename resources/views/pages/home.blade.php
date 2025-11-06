@@ -1,10 +1,13 @@
 @extends('layouts2.app')
 
-@section('title', 'Home - Crystal Write Hub')
+@section('title', "$page->page_name")
 
 @section('content')
 <div class="min-h-screen">
     <!-- Hero Section -->
+    @php
+    $setting = App\Models\WebSetting::first();
+@endphp
     <section class="hero-gradient py-20 md:py-32 relative overflow-hidden">
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
@@ -28,7 +31,7 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                    <a href="{{ route('blog.index') }}" class="btn-gradient text-white shadow-[var(--shadow-hover)] hover:shadow-[var(--shadow-elevated)] hover:scale-105 transition-bounce px-8 py-3 text-base font-semibold rounded-lg inline-flex items-center justify-center">
+                    <a href="{{ route('bloglist') }}" class="btn-gradient text-white shadow-[var(--shadow-hover)] hover:shadow-[var(--shadow-elevated)] hover:scale-105 transition-bounce px-8 py-3 text-base font-semibold rounded-lg inline-flex items-center justify-center">
                         Explore Articles
                         <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -75,10 +78,10 @@
                     <p class="text-muted-foreground text-lg md:text-xl leading-relaxed">{{ $featuredPost->excerpt }}</p>
 
                     <div class="flex items-center gap-4 text-sm pt-2">
-                        @if($featuredPost->author)
+                        @if($setting->site_author)
                         <div class="flex items-center gap-2">
-                            <img src="{{ $featuredPost->author->avatar }}" alt="{{ $featuredPost->author->name }}" class="w-10 h-10 rounded-full ring-2 ring-border">
-                            <span class="font-semibold">{{ $featuredPost->author->name }}</span>
+                            <img src="{{ asset('storage/user_profile_photos/'.$setting->site_author_image) }}" alt="{{ $setting->site_author }}" class="w-10 h-10 rounded-full ring-2 ring-border">
+                            <span class="font-semibold">{{ $setting->site_author }}</span>
                         </div>
                         @endif
                         <span class="text-muted-foreground font-medium">{{ $featuredPost->read_time }}</span>
@@ -129,7 +132,7 @@
             <h2 class="text-4xl md:text-5xl font-bold">
                 Latest <span class="gradient-text">Articles</span>
             </h2>
-            <a href="{{ route('blog.index') }}" class="group hover:text-primary transition-smooth font-semibold inline-flex items-center">
+            <a href="{{ route('bloglist') }}" class="group hover:text-primary transition-smooth font-semibold inline-flex items-center">
                 View All
                 <svg class="ml-2 h-5 w-5 transition-smooth group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -138,7 +141,7 @@
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach($latestPosts as $index => $post)
+            @foreach($recentposts as $index => $post)
             <div class="animate-scale-in" style="animation-delay: {{ $index * 0.1 }}s">
                 @include('partials.blog-card', ['post' => $post])
             </div>

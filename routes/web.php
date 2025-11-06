@@ -46,15 +46,15 @@ use App\Http\Controllers\SectionController;
 Route::get('/generate-sitemap', [SitemapController::class, 'generate'])->name('generate.sitemap');
 
 Route::get('/',[WebsiteController::class, 'home'])->name('home');
-Route::get('/contact-us',[WebsiteController::class, 'contact'])->name('contact-us');
-Route::get('/categories',[WebsiteController::class, 'categorylist'])->name('categorieslist');
-Route::get('/blog/{slug}', [WebsiteController::class, 'blogshow'])->name('blogshow');
+Route::get('/contact-us',[WebsiteController::class, 'contact'])->name('contact');
+Route::get('/categories',[WebsiteController::class, 'categorylist'])->name('categories');
+Route::get('/blog/{slug}', [WebsiteController::class, 'blogshow'])->name('blog.show');
 Route::get('/blog', [WebsiteController::class, 'bloglist'])->name('bloglist');
-Route::get('/blog/category/{categorySlug}', [WebsiteController::class, 'bloglist'])->name('bloglist.category');
+Route::get('/blog/category/{categorySlug}', [WebsiteController::class, 'bloglist'])->name('blog.category');
 Route::get('/404',[WebsiteController::class, 'error'])->name('404');
 Route::get('/privacy-policy',[WebsiteController::class, 'privacy'])->name('privacy-policy');
 Route::get('/terms-and-conditions',[WebsiteController::class, 'termsconditions'])->name('terms-and-conditions');
-Route::get('/about-us',[WebsiteController::class, 'about'])->name('about-us');
+Route::get('/about-us',[WebsiteController::class, 'about'])->name('about');
 Route::get('/disclaimer',[WebsiteController::class, 'disclaimer'])->name('disclaimer');
 Route::get('/write-for-us',[WebsiteController::class, 'write'])->name('write-for-us');
 Route::get('/authors/{slug?}', [WebsiteController::class, 'authors'])->name('authors');
@@ -70,32 +70,6 @@ Route::get('/footer',function() { return view('sitepartial.footer');})->name('fo
 | Frontend Public Routes
 |--------------------------------------------------------------------------
 */
-
-// Main Pages
-Route::controller(SiteController::class)->group(function () {
-  // Home
-//   Route::get('/', 'index')->name('home');
-
-  // Static Pages
-  Route::get('/about', 'about')->name('about');
-  Route::get('/contact', 'contact')->name('contact');
-
-  // Categories Listing
-  Route::get('/categories', 'categories')->name('categories');
-});
-
-// Blog Routes (SEO-friendly with /blog prefix)
-Route::prefix('blog')->name('blog.')->controller(SiteController::class)->group(function () {
-  // Blog listing
-  Route::get('/', 'blog')->name('index');
-
-  // Single blog post
-  Route::get('/{slug}', 'blog_details')->name('show');
-
-  // Category filter
-  Route::get('/category/{slug}', 'category')->name('category');
-});
-
 // Contact Form Submission
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.submit');
 /// Protected routes

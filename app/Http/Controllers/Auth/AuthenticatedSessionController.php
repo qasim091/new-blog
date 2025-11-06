@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,8 @@ class AuthenticatedSessionController extends Controller
    */
   public function create()
   {
-    return view('pages.login.login');
+    $page = Page::where('slug','sign-in')->first();
+    return view('pages.login.login',compact('page'));
   }
 
   /**

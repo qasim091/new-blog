@@ -2,7 +2,7 @@
     <nav class="container mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
             <a href="{{ route('home') }}" class="text-2xl font-bold gradient-text-accent hover:scale-105 transition-bounce inline-block">
-                ModernBlog
+                Estate Guide Blog
             </a>
 
             <!-- Desktop Navigation -->
@@ -10,7 +10,7 @@
                 <a href="{{ route('home') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-semibold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary after:transition-all after:duration-300 hover:after:w-full">
                     Home
                 </a>
-                <a href="{{ route('blog.index') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-semibold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary after:transition-all after:duration-300 hover:after:w-full">
+                <a href="{{ route('bloglist') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-semibold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary after:transition-all after:duration-300 hover:after:w-full">
                     Blog
                 </a>
                 <a href="{{ route('categories') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-semibold relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary after:transition-all after:duration-300 hover:after:w-full">
@@ -86,7 +86,7 @@
         <!-- Mobile Navigation -->
         <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 flex-col gap-4 animate-slide-in">
             <a href="{{ route('home') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-medium">Home</a>
-            <a href="{{ route('blog.index') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-medium">Blog</a>
+            <a href="{{ route('bloglist') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-medium">Blog</a>
             <a href="{{ route('categories') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-medium">Categories</a>
             <a href="{{ route('about') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-medium">About</a>
             <a href="{{ route('contact') }}" class="text-foreground/80 hover:text-foreground transition-smooth font-medium">Contact</a>

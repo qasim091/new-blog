@@ -20,6 +20,7 @@ class CreateBlogArticlesTable extends Migration
         $table->string('page_title')->nullable();
         $table->text('meta_desc')->nullable();
         $table->string('title');
+        $table->string('views_count')->default(1);
         $table->string('slug');
         $table->string('image')->nullable();
         $table->text('description')->nullable();
