@@ -47,9 +47,36 @@
             <img src="{{asset('storage/'. $article->image )}}" alt="{{ $article->title }}" class="w-full h-96 object-cover">
         </div>
 
+        <!-- Advertisement -->
+        <div class="mb-12">
+            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950 dark:to-red-950">
+                <!-- Demo Advertisement - Replace with actual AdSense code -->
+                <div class="text-center py-8 px-6">
+                    <div class="text-4xl mb-2">🎯</div>
+                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Advertisement</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Horizontal Banner - 728 x 90</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Content -->
         <div class="glass-card p-8 md:p-12 mb-12 prose prose-lg max-w-none">
             {!! $article->content !!}
+        </div>
+
+        <!-- Advertisement -->
+        <div class="mb-12">
+            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[250px] bg-gradient-to-br from-indigo-50 to-pink-50 dark:from-indigo-950 dark:to-pink-950">
+                <!-- Demo Advertisement - Replace with actual AdSense code -->
+                <div class="text-center py-12 px-8">
+                    <div class="text-5xl mb-3">💎</div>
+                    <p class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">Premium Ad Space</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Large Rectangle - 336 x 280</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">High visibility placement</p>
+                </div>
+            </div>
         </div>
 
         <!-- Tags -->
@@ -78,6 +105,19 @@
             </div>
         </div>
         @endif
+
+        <!-- Advertisement -->
+        <div class="mb-12">
+            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-emerald-50 to-cyan-50 dark:from-emerald-950 dark:to-cyan-950">
+                <!-- Demo Advertisement - Replace with actual AdSense code -->
+                <div class="text-center py-8 px-6">
+                    <div class="text-4xl mb-2">🚀</div>
+                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Sponsored Content</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Responsive Banner Ad</p>
+                </div>
+            </div>
+        </div>
 
         <!-- Related Posts -->
         @if($relatedPosts->count() > 0)

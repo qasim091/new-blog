@@ -110,6 +110,21 @@
     </section>
     @endif
 
+    <!-- Advertisement -->
+    <section class="container mx-auto px-4 py-12">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-violet-50 to-fuchsia-50 dark:from-violet-950 dark:to-fuchsia-950">
+                <!-- Demo Advertisement - Replace with actual AdSense code -->
+                <div class="text-center py-8 px-6">
+                    <div class="text-4xl mb-2">✨</div>
+                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Featured Advertisement</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Horizontal Banner - 728 x 90</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Categories -->
     <section class="container mx-auto px-4 py-20">
         <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center">
@@ -123,6 +138,22 @@
                 <p class="text-sm text-muted-foreground font-medium">{{ $category->count }} articles</p>
             </a>
             @endforeach
+        </div>
+    </section>
+
+    <!-- Advertisement -->
+    <section class="container mx-auto px-4 pb-12">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[250px] bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950 dark:to-orange-950">
+                <!-- Demo Advertisement - Replace with actual AdSense code -->
+                <div class="text-center py-12 px-8">
+                    <div class="text-5xl mb-3">🎨</div>
+                    <p class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">Premium Placement</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Large Rectangle - 336 x 280</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">High engagement zone</p>
+                </div>
+            </div>
         </div>
     </section>
 

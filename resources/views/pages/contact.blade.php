@@ -67,6 +67,19 @@
             </form>
         </div>
 
+        <!-- Advertisement -->
+        <div class="my-12">
+            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-950 dark:to-pink-950">
+                <!-- Demo Advertisement - Replace with actual AdSense code -->
+                <div class="text-center py-8 px-6">
+                    <div class="text-4xl mb-2">💼</div>
+                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Advertisement</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Horizontal Banner - 728 x 90</p>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-12 grid md:grid-cols-3 gap-6">
             <div class="glass-card p-6 text-center">
                 <svg class="w-8 h-8 mx-auto mb-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
