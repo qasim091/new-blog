@@ -55,33 +55,34 @@
                 </div>
 
                 <!-- Job Category Style Buttons -->
-                <div class="mb-8 space-y-4">
+<div class="mb-8 space-y-4">
                     <!-- First Row -->
                     <div class="flex flex-wrap justify-center gap-4">
-                        <a href="#" class="glass-strong px-6 py-5 rounded-full font-semibold hover:scale-105 transition-bounce bg-primary text-white">
+                        <a href="#" class="glass-strong px-8 py-6 rounded-full text-lg font-semibold hover:scale-105 transition-bounce bg-primary text-white">
                             Latest Articles
                         </a>
-                        <a href="#" class="glass-strong px-6 py-5 rounded-full font-semibold hover:scale-105 transition-bounce bg-primary text-white">
+                        <a href="#" class="glass-strong px-8 py-6 rounded-full text-lg font-semibold hover:scale-105 transition-bounce bg-primary text-white">
                             Featured Posts
                         </a>
-                        <a href="#" class="glass-strong px-6 py-5 rounded-full font-semibold hover:scale-105 transition-bounce bg-primary text-white">
+                        <a href="#" class="glass-strong px-8 py-6 rounded-full text-lg font-semibold hover:scale-105 transition-bounce bg-primary text-white">
                             Popular Articles
                         </a>
                     </div>
-                    
+
                     <!-- Second Row -->
                     <div class="flex flex-wrap justify-center gap-4">
-                        <a href="#" class="glass-strong px-6 py-5 rounded-full font-semibold hover:scale-105 transition-bounce bg-primary text-white">
+                        <a href="#" class="glass-strong px-8 py-6 rounded-full text-lg font-semibold hover:scale-105 transition-bounce bg-primary text-white">
                             Tech Articles
                         </a>
-                        <a href="#" class="glass-strong px-6 py-5 rounded-full font-semibold hover:scale-105 transition-bounce bg-primary text-white">
+                        <a href="#" class="glass-strong px-8 py-6 rounded-full text-lg font-semibold hover:scale-105 transition-bounce bg-primary text-white">
                             Tutorials
                         </a>
-                        <a href="#" class="glass-strong px-6 py-5 rounded-full font-semibold hover:scale-105 transition-bounce bg-primary text-white">
+                        <a href="#" class="glass-strong px-8 py-6 rounded-full text-lg font-semibold hover:scale-105 transition-bounce bg-primary text-white">
                             News & Updates
                         </a>
                     </div>
                 </div>
+
 
 
                 <!-- Blog Posts Grid -->
