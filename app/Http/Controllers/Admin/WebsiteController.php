@@ -16,6 +16,7 @@ use App\Models\HomePageCategory;
 use App\Models\BlogCategory;
 use App\Models\DynamicCategory;
 use App\Models\HomePageCategoryHighlight;
+use App\Models\HomeAd;
 use Illuminate\Support\Facades\Auth;
 //For Schema
 use Spatie\SchemaOrg\Schema;
@@ -170,12 +171,14 @@ $blogs = BlogArticle::with(['author', 'category'])
     ->paginate(10);
 
 $recentposts = BlogArticle::where('status', '1')
-    ->whereNotIn('id', $blogs->pluck('id')->take(4))
-    ->orderBy('updated_at', 'desc') // changed from created_at to updated_at
-    ->take(4)
-    ->get();
-
+    ->with(['category', 'author'])
+    ->orderBy('updated_at', 'desc')
+    ->paginate(9); // 9 posts per page to work well with 3-column grid
     $banner = Banner::first() ?? new Banner(['image' => 'default-banner.jpg']);
+
+    // Get active home page ads
+    $adsAfter3rd = HomeAd::getActiveAdsByPosition('home_after_3rd');
+    $adsAfter7th = HomeAd::getActiveAdsByPosition('home_after_7th');
 
     return view('pages.home', compact(
         'schemaMarkup',
@@ -188,7 +191,9 @@ $recentposts = BlogArticle::where('status', '1')
         'categories',
         'blogs',
         'recentposts',
-        'featuredPost'
+        'featuredPost',
+        'adsAfter3rd',
+        'adsAfter7th'
     ));
 }
 
@@ -615,8 +620,13 @@ $schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
 
     $breadcrumbsMarkup = json_encode($breadcrumbs, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
+    // Get active blog page ads
+    $adsAfter3rd = HomeAd::getActiveAdsByPosition('blog_after_3rd');
+    $adsAfter7th = HomeAd::getActiveAdsByPosition('blog_after_7th');
+
     return view("pages.blog.blog", compact(
-        'page', 'setting', 'blogs', 'categories', 'recentposts', 'schemaMarkup', 'breadcrumbsMarkup'
+        'page', 'setting', 'blogs', 'categories', 'recentposts', 'schemaMarkup', 'breadcrumbsMarkup',
+        'adsAfter3rd', 'adsAfter7th'
     ));
 }
 
@@ -866,6 +876,11 @@ public function blogshow(BlogArticle $articleArticle, $slug)
 
     $breadcrumbsMarkup = json_encode($breadcrumbs, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
+    // Get active blog detail page ads
+    $adsAfterFirstParagraph = HomeAd::getActiveAdsByPosition('blog_detail_after_first_paragraph');
+    $adsMiddleContent = HomeAd::getActiveAdsByPosition('blog_detail_middle_content');
+    $adsBeforeLast2Tags = HomeAd::getActiveAdsByPosition('blog_detail_before_last_2_tags');
+
     return view("pages.blog.blog_details", compact(
         'instructor',
         'page',
@@ -877,7 +892,10 @@ public function blogshow(BlogArticle $articleArticle, $slug)
         'recentposts',
         // 'comments',
         'schemaMarkup',
-        'breadcrumbsMarkup'
+        'breadcrumbsMarkup',
+        'adsAfterFirstParagraph',
+        'adsMiddleContent',
+        'adsBeforeLast2Tags'
     ));
 }
 

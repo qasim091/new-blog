@@ -59,19 +59,6 @@
             </p>
         </div>
 
-        <!-- Advertisement -->
-        <div class="mb-12">
-            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
-            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-lime-50 to-green-50 dark:from-lime-950 dark:to-green-950">
-                <!-- Demo Advertisement - Replace with actual AdSense code -->
-                <div class="text-center py-8 px-6">
-                    <div class="text-4xl mb-2">📋</div>
-                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Sponsored Content</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Horizontal Banner - 728 x 90</p>
-                </div>
-            </div>
-        </div>
-
         <div class="text-center">
             <a href="{{ route('contact') }}" class="btn-gradient text-white px-8 py-4 rounded-lg font-semibold text-lg hover:scale-105 transition-bounce inline-block">
                 Get In Touch

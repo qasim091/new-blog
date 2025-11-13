@@ -22,6 +22,7 @@ use App\Http\Controllers\UserEducationController;
 use App\Http\Controllers\Admin\WebsiteController;
 use App\Http\Controllers\PageSectionController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\Admin\HomeAdController;
 
 
 /*
@@ -306,6 +307,16 @@ Route::controller(TagController::class)->group(function () {
     Route::put('/tags/{id}', 'update')->name('tags.update')->middleware('checkpermission:update.sliders');
     Route::get('/tags/{id}', 'destroy')->name('tags.destroy')->middleware('checkpermission:destroy.sliders');
 });
+    // Home Ads
+    Route::controller(HomeAdController::class)->group(function () {
+        Route::get('/home-ads', 'index')->name('admin.home-ads.index');
+        Route::get('/home-ads/create', 'create')->name('admin.home-ads.create');
+        Route::post('/home-ads', 'store')->name('admin.home-ads.store');
+        Route::get('/home-ads/{id}/edit', 'edit')->name('admin.home-ads.edit');
+        Route::put('/home-ads/{id}', 'update')->name('admin.home-ads.update');
+        Route::delete('/home-ads/{id}', 'destroy')->name('admin.home-ads.destroy');
+        Route::patch('/home-ads/{id}/toggle-status', 'toggleStatus')->name('admin.home-ads.toggle-status');
+    });
     // App setttings
     Route::controller(AppSettingController::class)->group(function () {
       Route::get('/app-setting/edit/{id}', 'edit')

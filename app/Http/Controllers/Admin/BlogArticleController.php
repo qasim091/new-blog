@@ -141,23 +141,15 @@ class BlogArticleController extends Controller
           $titleSlug = Str::slug($request->title, '-');
 
           // Upload the new image using your existing function
-          $fileNameToStore = $this->uploadImage($fileData, $titleSlug, $loc);
+          $fileNameToStore = 'blog/article/' . $this->uploadImage($fileData, $titleSlug, $loc);
 
           // Delete the old image (if it's not the default no_img.jpg)
           if ($article->image !== 'blog/article/no_img.jpg') {
               Storage::delete('public/' . $article->image);
           }
-      } else {
-          // Rename the existing image if the title changes
-          $fileExtension = pathinfo($article->image, PATHINFO_EXTENSION);
-          $newFileName = Str::slug($request->title, '-');
-          $newFileNameToStore = $this->uploadImage($fileData, $newFileName, 'public/blog/article');
-
-          if ($article->image !== 'blog/article/no_img.jpg' && $newFileNameToStore !== $article->image) {
-              Storage::move('public/' . $article->image, 'public/blog/article/' . $newFileNameToStore);
-              $fileNameToStore = 'blog/article/' . $newFileNameToStore;
-          }
       }
+      // If no new image, keep the existing image path
+      // No need to rename or move the file
 
       $data = [
           'page_title'  => $request->page_title,
@@ -165,7 +157,7 @@ class BlogArticleController extends Controller
           'title'       => $request->title,
           'slug'        => Str::slug($request->title, '-'),
           'description' => $request->description,
-          'image'       => 'blog/article/' . $fileNameToStore, // Ensure proper path format
+          'image'       => $fileNameToStore, // Already includes full path
           'status'      => $request->status,
           'author_id'   => Auth::id(),
       ];

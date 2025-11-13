@@ -34,18 +34,6 @@
                     </form>
                 </div>
 
-                <!-- Advertisement -->
-                <div class="mb-8 max-w-4xl mx-auto">
-                    <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
-                    <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
-                        <!-- Demo Advertisement - Replace with actual AdSense code -->
-                        <div class="text-center py-8 px-6">
-                            <div class="text-4xl mb-2">📢</div>
-                            <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Your Ad Here</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">728 x 90 Banner Ad Space</p>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Categories Filter -->
                 <div class="mb-12 flex flex-wrap gap-4 justify-center">
@@ -68,10 +56,56 @@
 
                 <!-- Blog Posts Grid -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                    @forelse($blogs as $post)
+                    @forelse($blogs as $index => $post)
                         <div class="animate-scale-in">
                             @include('partials.blog-card', ['post' => $post])
                         </div>
+
+                        <!-- Advertisement after 3rd blog post -->
+                        @if($index == 2 && $adsAfter3rd->count() > 0)
+                            @foreach($adsAfter3rd as $ad)
+                            <div class="animate-scale-in">
+                                <div class="text-center mb-2">
+                                    <span class="text-xs text-muted-foreground font-medium">Advertisement</span>
+                                </div>
+                                <div class="glass-card overflow-hidden">
+                                    <div class="relative overflow-hidden">
+                                        <div class="w-full h-56 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center">
+                                            {!! $ad->ad_code !!}
+                                        </div>
+                                    </div>
+                                    <div class="p-6">
+                                        <div class="h-[120px] flex items-center justify-center text-center">
+                                            <p class="text-sm text-muted-foreground">Ad content area</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        @endif
+
+                        <!-- Advertisement after 7th blog post -->
+                        @if($index == 6 && $adsAfter7th->count() > 0)
+                            @foreach($adsAfter7th as $ad)
+                            <div class="animate-scale-in">
+                                <div class="text-center mb-2">
+                                    <span class="text-xs text-muted-foreground font-medium">Advertisement</span>
+                                </div>
+                                <div class="glass-card overflow-hidden">
+                                    <div class="relative overflow-hidden">
+                                        <div class="w-full h-56 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center">
+                                            {!! $ad->ad_code !!}
+                                        </div>
+                                    </div>
+                                    <div class="p-6">
+                                        <div class="h-[120px] flex items-center justify-center text-center">
+                                            <p class="text-sm text-muted-foreground">Ad content area</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        @endif
                     @empty
                         <div class="col-span-full text-center py-12">
                             <p class="text-muted-foreground text-xl">No posts found.</p>
@@ -79,18 +113,6 @@
                     @endforelse
                 </div>
 
-                <!-- Advertisement -->
-                <div class="mb-8 max-w-4xl mx-auto">
-                    <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
-                    <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-950 dark:to-teal-950">
-                        <!-- Demo Advertisement - Replace with actual AdSense code -->
-                        <div class="text-center py-8 px-6">
-                            <div class="text-4xl mb-2">💼</div>
-                            <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Advertisement Space</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Responsive Banner Ad</p>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Pagination -->
                 @if ($blogs->hasPages())

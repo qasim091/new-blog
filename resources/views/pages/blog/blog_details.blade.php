@@ -47,37 +47,136 @@
             <img src="{{asset('storage/'. $article->image )}}" alt="{{ $article->title }}" class="w-full h-96 object-cover">
         </div>
 
-        <!-- Advertisement -->
-        <div class="mb-12">
-            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
-            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950 dark:to-red-950">
-                <!-- Demo Advertisement - Replace with actual AdSense code -->
-                <div class="text-center py-8 px-6">
-                    <div class="text-4xl mb-2">🎯</div>
-                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Advertisement</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Horizontal Banner - 728 x 90</p>
-                </div>
-            </div>
-        </div>
 
         <!-- Content -->
         <div class="glass-card p-8 md:p-12 mb-12 prose prose-lg max-w-none">
-            {!! $article->content !!}
+            @php
+                // Split content by paragraphs
+                $description = $article->description;
+                $paragraphs = preg_split('/(<\/p>)/i', $description, -1, PREG_SPLIT_DELIM_CAPTURE);
+                
+                // Count actual paragraphs (pairs of content + closing tag)
+                $totalParagraphs = floor(count($paragraphs) / 2);
+                
+                // Initialize content sections
+                $firstTwoParagraphs = '';
+                $middleContent = '';
+                $beforeLastContent = '';
+                $lastParagraph = '';
+                
+                if ($totalParagraphs >= 5) {
+                    // For 5+ paragraphs: first two, middle, before last, last 2
+                    $midPoint = floor(($totalParagraphs - 4) / 2) + 2; // Calculate mid excluding first 2 and last 2
+                    
+                    // First two paragraphs (index 0-3)
+                    $firstTwoParagraphs = $paragraphs[0] . ($paragraphs[1] ?? '') . 
+                                         $paragraphs[2] . ($paragraphs[3] ?? '');
+                    
+                    // Middle content (from 3rd to mid point)
+                    for ($i = 4; $i < (($midPoint + 1) * 2); $i++) {
+                        $middleContent .= $paragraphs[$i];
+                    }
+                    
+                    // Before last content (from after middle to before last 2 paragraphs)
+                    for ($i = (($midPoint + 1) * 2); $i < (count($paragraphs) - 4); $i++) {
+                        $beforeLastContent .= $paragraphs[$i];
+                    }
+                    
+                    // Last 2 paragraphs
+                    $lastParagraph = $paragraphs[count($paragraphs) - 4] . ($paragraphs[count($paragraphs) - 3] ?? '') .
+                                    $paragraphs[count($paragraphs) - 2] . ($paragraphs[count($paragraphs) - 1] ?? '');
+                    
+                } elseif ($totalParagraphs == 4) {
+                    // For 4 paragraphs: first two, last two
+                    $firstTwoParagraphs = $paragraphs[0] . ($paragraphs[1] ?? '') . 
+                                         $paragraphs[2] . ($paragraphs[3] ?? '');
+                    // Last 2 paragraphs (3rd and 4th)
+                    $lastParagraph = $paragraphs[4] . ($paragraphs[5] ?? '') . 
+                                    $paragraphs[6] . ($paragraphs[7] ?? '');
+                    
+                } elseif ($totalParagraphs == 3) {
+                    // For 3 paragraphs: first two, last
+                    $firstTwoParagraphs = $paragraphs[0] . ($paragraphs[1] ?? '') . 
+                                         $paragraphs[2] . ($paragraphs[3] ?? '');
+                    $lastParagraph = $paragraphs[4] . ($paragraphs[5] ?? '');
+                    
+                } elseif ($totalParagraphs == 2) {
+                    // For 2 paragraphs: show both as first two
+                    $firstTwoParagraphs = $paragraphs[0] . ($paragraphs[1] ?? '') . 
+                                         $paragraphs[2] . ($paragraphs[3] ?? '');
+                } else {
+                    // Single paragraph or no paragraphs
+                    $firstTwoParagraphs = $description;
+                }
+            @endphp
+            
+            {{-- First Two Paragraphs --}}
+            {!! $firstTwoParagraphs !!}
+            
+            {{-- Ad After Two Paragraphs --}}
+            @if($adsAfterFirstParagraph->count() > 0)
+                </div>
+                <div class="mb-8">
+                    @foreach($adsAfterFirstParagraph as $ad)
+                    <div class="mb-8">
+                        <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+                        <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px]">
+                            {!! $ad->ad_code !!}
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <div class="glass-card p-8 md:p-12 mb-12 prose prose-lg max-w-none">
+            @endif
+            
+            {{-- Middle Content --}}
+            @if($middleContent)
+                {!! $middleContent !!}
+                
+                {{-- Ad in Middle of Content --}}
+                @if($adsMiddleContent->count() > 0)
+                    </div>
+                    <div class="mb-8">
+                        @foreach($adsMiddleContent as $ad)
+                        <div class="mb-8">
+                            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+                            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px]">
+                                {!! $ad->ad_code !!}
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="glass-card p-8 md:p-12 mb-12 prose prose-lg max-w-none">
+                @endif
+            @endif
+            
+            {{-- Before Last Content --}}
+            @if($beforeLastContent)
+                {!! $beforeLastContent !!}
+            @endif
+            
+            {{-- Ad Before Last 2 Tags in Description --}}
+            @if($adsBeforeLast2Tags->count() > 0 && $lastParagraph)
+                </div>
+                <div class="mb-8">
+                    @foreach($adsBeforeLast2Tags as $ad)
+                    <div class="mb-8">
+                        <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
+                        <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px]">
+                            {!! $ad->ad_code !!}
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                <div class="glass-card p-8 md:p-12 mb-12 prose prose-lg max-w-none">
+            @endif
+            
+            {{-- Last 2 Tags/Paragraphs --}}
+            @if($lastParagraph)
+                {!! $lastParagraph !!}
+            @endif
         </div>
 
-        <!-- Advertisement -->
-        <div class="mb-12">
-            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
-            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[250px] bg-gradient-to-br from-indigo-50 to-pink-50 dark:from-indigo-950 dark:to-pink-950">
-                <!-- Demo Advertisement - Replace with actual AdSense code -->
-                <div class="text-center py-12 px-8">
-                    <div class="text-5xl mb-3">💎</div>
-                    <p class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">Premium Ad Space</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Large Rectangle - 336 x 280</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">High visibility placement</p>
-                </div>
-            </div>
-        </div>
 
         <!-- Tags -->
         {{-- @if($article->tags->count() > 0)
@@ -106,18 +205,6 @@
         </div>
         @endif
 
-        <!-- Advertisement -->
-        <div class="mb-12">
-            <p class="text-sm text-muted-foreground text-center mb-2 font-medium">Advertisement</p>
-            <div class="glass-card p-4 rounded-2xl flex items-center justify-center min-h-[120px] bg-gradient-to-r from-emerald-50 to-cyan-50 dark:from-emerald-950 dark:to-cyan-950">
-                <!-- Demo Advertisement - Replace with actual AdSense code -->
-                <div class="text-center py-8 px-6">
-                    <div class="text-4xl mb-2">🚀</div>
-                    <p class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">Sponsored Content</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Responsive Banner Ad</p>
-                </div>
-            </div>
-        </div>
 
         <!-- Related Posts -->
         @if($relatedPosts->count() > 0)

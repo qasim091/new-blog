@@ -59,6 +59,13 @@
                     <span>Home Page Banner</span>
                 </a>
             </li>
+            <!-- Advertisements -->
+            <li class="menu-header">Advertisements</li>
+            <li class="nav-item {{ request()->routeIs('admin.home-ads.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.home-ads.index') }}" class="nav-link"><i class="fas fa-ad"></i>
+                    <span>Home Ads Management</span>
+                </a>
+            </li>
             <!-- Sliders -->
             <li class="menu-header">Sliders</li>
             <li class="nav-item {{ request()->routeIs('sliders.index') ? 'active' : '' }}">

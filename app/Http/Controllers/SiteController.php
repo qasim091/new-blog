@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\BlogArticle;
 use App\Models\BlogCategory;
 use App\Models\User;
+use App\Models\HomeAd;
 
 class SiteController extends Controller
 {
@@ -35,14 +36,17 @@ class SiteController extends Controller
         return $category;
       });
 
-    // Get latest posts
-    $latestPosts = BlogArticle::where('status', 1)
+    // Get latest posts with pagination
+    $recentposts = BlogArticle::where('status', 1)
       ->with(['category', 'author'])
       ->latest()
-      ->take(6)
-      ->get();
+      ->paginate(9); // 9 posts per page to work well with 3-column grid
 
-    return view('pages.home', compact('title', 'featuredPost', 'categories', 'latestPosts'));
+    // Get active home page ads
+    $adsAfter3rd = HomeAd::getActiveAdsByPosition('home_after_3rd');
+    $adsAfter7th = HomeAd::getActiveAdsByPosition('home_after_7th');
+
+    return view('pages.home', compact('title', 'featuredPost', 'categories', 'recentposts', 'adsAfter3rd', 'adsAfter7th'));
   }
   public function blog(Request $request)
   {
@@ -61,7 +65,11 @@ class SiteController extends Controller
       ->latest()
       ->paginate(9);
 
-    return view('pages.blog.blog', compact('title', 'categories', 'posts'));
+    // Get active blog page ads
+    $adsAfter3rd = HomeAd::getActiveAdsByPosition('blog_after_3rd');
+    $adsAfter7th = HomeAd::getActiveAdsByPosition('blog_after_7th');
+
+    return view('pages.blog.blog', compact('title', 'categories', 'posts', 'adsAfter3rd', 'adsAfter7th'));
   }
 
   public function blog_details($slug)
