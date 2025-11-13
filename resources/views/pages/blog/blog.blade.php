@@ -54,6 +54,35 @@
 @endforeach
                 </div>
 
+                <!-- Job Category Style Buttons -->
+                <div class="mb-8 space-y-4">
+                    <!-- First Row -->
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#" class="backdrop-blur-md border w-44 h-16 flex items-center justify-center rounded-2xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-center" style="background-color: rgba(0, 123, 255, 0.2); border-color: rgba(0, 123, 255, 0.3); color: #007bff;">
+                            Latest Articles
+                        </a>
+                        <a href="#" class="backdrop-blur-md border w-44 h-16 flex items-center justify-center rounded-2xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-center" style="background-color: rgba(0, 123, 255, 0.2); border-color: rgba(0, 123, 255, 0.3); color: #007bff;">
+                            Featured Posts
+                        </a>
+                        <a href="#" class="backdrop-blur-md border w-44 h-16 flex items-center justify-center rounded-2xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-center" style="background-color: rgba(0, 123, 255, 0.2); border-color: rgba(0, 123, 255, 0.3); color: #007bff;">
+                            Popular Articles
+                        </a>
+                    </div>
+                    
+                    <!-- Second Row -->
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#" class="backdrop-blur-md border w-44 h-16 flex items-center justify-center rounded-2xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-center" style="background-color: rgba(0, 123, 255, 0.2); border-color: rgba(0, 123, 255, 0.3); color: #007bff;">
+                            Tech Articles
+                        </a>
+                        <a href="#" class="backdrop-blur-md border w-44 h-16 flex items-center justify-center rounded-2xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-center" style="background-color: rgba(0, 123, 255, 0.2); border-color: rgba(0, 123, 255, 0.3); color: #007bff;">
+                            Tutorials
+                        </a>
+                        <a href="#" class="backdrop-blur-md border w-44 h-16 flex items-center justify-center rounded-2xl font-semibold text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-center" style="background-color: rgba(0, 123, 255, 0.2); border-color: rgba(0, 123, 255, 0.3); color: #007bff;">
+                            News & Updates
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Blog Posts Grid -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                     @forelse($blogs as $index => $post)
