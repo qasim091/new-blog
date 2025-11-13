@@ -45,6 +45,11 @@
                     <span>Blogs Management</span>
                 </a>
             </li>
+            <li class="nav-item {{ request()->routeIs('admin.blog-category-buttons.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.blog-category-buttons.index') }}" class="nav-link"><i class="fas fa-mouse-pointer"></i>
+                    <span>Category Buttons</span>
+                </a>
+            </li>
             <!-- Website Pages -->
             <li class="menu-header">Website Pages</li>
             <li class="nav-item {{ request()->routeIs('view.pages') ? 'active' : '' }}">

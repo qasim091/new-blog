@@ -317,6 +317,19 @@ Route::controller(TagController::class)->group(function () {
         Route::delete('/home-ads/{id}', 'destroy')->name('admin.home-ads.destroy');
         Route::patch('/home-ads/{id}/toggle-status', 'toggleStatus')->name('admin.home-ads.toggle-status');
     });
+    
+    // Blog Category Buttons
+    Route::resource('blog-category-buttons', App\Http\Controllers\Admin\BlogCategoryButtonController::class, [
+        'names' => [
+            'index' => 'admin.blog-category-buttons.index',
+            'create' => 'admin.blog-category-buttons.create',
+            'store' => 'admin.blog-category-buttons.store',
+            'show' => 'admin.blog-category-buttons.show',
+            'edit' => 'admin.blog-category-buttons.edit',
+            'update' => 'admin.blog-category-buttons.update',
+            'destroy' => 'admin.blog-category-buttons.destroy'
+        ]
+    ]);
     // App setttings
     Route::controller(AppSettingController::class)->group(function () {
       Route::get('/app-setting/edit/{id}', 'edit')

@@ -69,7 +69,10 @@ class SiteController extends Controller
     $adsAfter3rd = HomeAd::getActiveAdsByPosition('blog_after_3rd');
     $adsAfter7th = HomeAd::getActiveAdsByPosition('blog_after_7th');
 
-    return view('pages.blog.blog', compact('title', 'categories', 'posts', 'adsAfter3rd', 'adsAfter7th'));
+    // Get active blog category buttons
+    $categoryButtons = \App\Models\BlogCategoryButton::active()->ordered()->get();
+
+    return view('pages.blog.blog', compact('title', 'categories', 'posts', 'adsAfter3rd', 'adsAfter7th', 'categoryButtons'));
   }
 
   public function blog_details($slug)

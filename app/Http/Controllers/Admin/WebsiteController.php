@@ -623,10 +623,27 @@ $schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
     // Get active blog page ads
     $adsAfter3rd = HomeAd::getActiveAdsByPosition('blog_after_3rd');
     $adsAfter7th = HomeAd::getActiveAdsByPosition('blog_after_7th');
-
+    
+    // Get category buttons - filter by current category if viewing a specific category
+    if ($categorySlug && isset($category)) {
+        // Show buttons that are linked to the current category
+        $categoryButtons = \App\Models\BlogCategoryButton::active()
+            ->where('category_id', $category->id)
+            ->ordered()
+            ->get();
+    } else {
+        // On main blog page, show buttons that are not linked to any specific category
+        $categoryButtons = \App\Models\BlogCategoryButton::active()
+            ->whereNull('category_id')
+            ->ordered()
+            ->get();
+    }
+    
+    $currentCategory = $categorySlug && isset($category) ? $category : null;
+    
     return view("pages.blog.blog", compact(
         'page', 'setting', 'blogs', 'categories', 'recentposts', 'schemaMarkup', 'breadcrumbsMarkup',
-        'adsAfter3rd', 'adsAfter7th'
+        'adsAfter3rd', 'adsAfter7th', 'categoryButtons', 'currentCategory'
     ));
 }
 

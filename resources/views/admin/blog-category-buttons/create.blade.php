@@ -1,0 +1,183 @@
+@extends('dashboard.admin.layouts.app')
+
+@section('title')
+    <title>{{ __('Create Blog Category Button') }}</title>
+@endsection
+
+@section('admin-content')
+    <div class="main-content">
+        <section class="section">
+            <div class="section-header">
+                <h1>{{ __('Create Blog Category Button') }}</h1>
+                <div class="section-header-breadcrumb">
+                    <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
+                    </div>
+                    <div class="breadcrumb-item"><a href="{{ route('admin.blog-category-buttons.index') }}">{{ __('Blog Category Buttons') }}</a>
+                    </div>
+                    <div class="breadcrumb-item">{{ __('Create') }}</div>
+                </div>
+            </div>
+            
+            <div class="section-body">
+                <div class="dashboard__content-wrap">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="instructor__profile-form-wrap mt-4">
+                                        <form action="{{ route('admin.blog-category-buttons.store') }}" method="POST" 
+                                              class="instructor__profile-form">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="title">{{ __('Title') }} <code>*</code></label>
+                                                        <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                                               id="title" name="title" value="{{ old('title') }}" required>
+                                                        @error('title')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="slug">{{ __('Slug') }}</label>
+                                                        <input type="text" class="form-control @error('slug') is-invalid @enderror"
+                                                               id="slug" name="slug" value="{{ old('slug') }}">
+                                                        <small class="form-text text-muted">{{ __('Leave empty to auto-generate from title') }}</small>
+                                                        @error('slug')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="category_id">{{ __('Blog Category') }}</label>
+                                                        <select class="form-control @error('category_id') is-invalid @enderror"
+                                                                id="category_id" name="category_id">
+                                                            <option value="">{{ __('Select Category (Optional)') }}</option>
+                                                            @foreach($categories as $category)
+                                                                <option value="{{ $category->id }}"
+                                                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                                    {{ $category->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('category_id')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="url">{{ __('Custom URL') }}</label>
+                                                        <input type="url" class="form-control @error('url') is-invalid @enderror"
+                                                               id="url" name="url" value="{{ old('url') }}">
+                                                        <small class="form-text text-muted">{{ __('Leave empty to use category URL') }}</small>
+                                                        @error('url')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="bg_color">{{ __('Background Color') }} <code>*</code></label>
+                                                        <select class="form-control @error('bg_color') is-invalid @enderror"
+                                                                id="bg_color" name="bg_color" required>
+                                                            <option value="bg-primary" {{ old('bg_color') == 'bg-primary' ? 'selected' : '' }}>{{ __('Primary') }}</option>
+                                                            <option value="bg-secondary" {{ old('bg_color') == 'bg-secondary' ? 'selected' : '' }}>{{ __('Secondary') }}</option>
+                                                            <option value="bg-success" {{ old('bg_color') == 'bg-success' ? 'selected' : '' }}>{{ __('Success') }}</option>
+                                                            <option value="bg-danger" {{ old('bg_color') == 'bg-danger' ? 'selected' : '' }}>{{ __('Danger') }}</option>
+                                                            <option value="bg-warning" {{ old('bg_color') == 'bg-warning' ? 'selected' : '' }}>{{ __('Warning') }}</option>
+                                                            <option value="bg-info" {{ old('bg_color') == 'bg-info' ? 'selected' : '' }}>{{ __('Info') }}</option>
+                                                            <option value="bg-dark" {{ old('bg_color') == 'bg-dark' ? 'selected' : '' }}>{{ __('Dark') }}</option>
+                                                        </select>
+                                                        @error('bg_color')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="text_color">{{ __('Text Color') }} <code>*</code></label>
+                                                        <select class="form-control @error('text_color') is-invalid @enderror"
+                                                                id="text_color" name="text_color" required>
+                                                            <option value="text-white" {{ old('text_color') == 'text-white' ? 'selected' : '' }}>{{ __('White') }}</option>
+                                                            <option value="text-dark" {{ old('text_color') == 'text-dark' ? 'selected' : '' }}>{{ __('Dark') }}</option>
+                                                            <option value="text-primary" {{ old('text_color') == 'text-primary' ? 'selected' : '' }}>{{ __('Primary') }}</option>
+                                                            <option value="text-secondary" {{ old('text_color') == 'text-secondary' ? 'selected' : '' }}>{{ __('Secondary') }}</option>
+                                                        </select>
+                                                        @error('text_color')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="sort_order">{{ __('Sort Order') }} <code>*</code></label>
+                                                        <input type="number" class="form-control @error('sort_order') is-invalid @enderror"
+                                                               id="sort_order" name="sort_order" value="{{ old('sort_order', 0) }}" min="0" required>
+                                                        @error('sort_order')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input" id="is_active"
+                                                                   name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                                                            <label class="custom-control-label" for="is_active">{{ __('Active') }}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="fa fa-save"></i> {{ __('Create Button') }}
+                                                        </button>
+                                                        <a href="{{ route('admin.blog-category-buttons.index') }}" class="btn btn-secondary ml-2">
+                                                            <i class="fa fa-arrow-left"></i> {{ __('Back to List') }}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+<script>
+document.getElementById('title').addEventListener('input', function() {
+    const title = this.value;
+    const slug = title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim('-');
+    document.getElementById('slug').value = slug;
+});
+</script>
+@endsection
