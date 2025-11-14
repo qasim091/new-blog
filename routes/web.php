@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\WebsiteController;
 use App\Http\Controllers\PageSectionController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\Admin\HomeAdController;
+use Illuminate\Support\Facades\DB;
 
 
 /*
@@ -44,6 +45,29 @@ use App\Http\Controllers\Admin\HomeAdController;
 |--------------------------------------------------------------------------
 |
 */
+
+Route::get('/printtables', function () {
+
+    // Get all tables
+    $tables = DB::select('SHOW TABLES');
+
+    // Convert table names into a simple array
+    $dbName = env('DB_DATABASE');
+    $key = "Tables_in_{$dbName}";
+    $tableNames = array_map(fn($t) => $t->$key, $tables);
+
+    // For each table get columns
+    $tablesData = [];
+
+    foreach ($tableNames as $table) {
+        $columns = DB::select("SHOW COLUMNS FROM `$table`");
+        $tablesData[$table] = $columns;
+    }
+
+    return view('printtables', compact('dbName', 'tablesData'));
+});
+
+
 Route::get('/generate-sitemap', [SitemapController::class, 'generate'])->name('generate.sitemap');
 
 Route::get('/',[WebsiteController::class, 'home'])->name('home');
@@ -317,7 +341,7 @@ Route::controller(TagController::class)->group(function () {
         Route::delete('/home-ads/{id}', 'destroy')->name('admin.home-ads.destroy');
         Route::patch('/home-ads/{id}/toggle-status', 'toggleStatus')->name('admin.home-ads.toggle-status');
     });
-    
+
     // Blog Category Buttons
     Route::resource('blog-category-buttons', App\Http\Controllers\Admin\BlogCategoryButtonController::class, [
         'names' => [
