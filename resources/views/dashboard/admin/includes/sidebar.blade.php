@@ -57,13 +57,6 @@
                     <span>Pages</span>
                 </a>
             </li>
-            <!-- Banners -->
-            <li class="menu-header">Banners</li>
-            <li class="nav-item {{ request()->routeIs('banners.manage') ? 'active' : '' }}">
-                <a href="{{ route('banners.manage') }}" class="nav-link"><i class="fas fa-images"></i>
-                    <span>Home Page Banner</span>
-                </a>
-            </li>
             <!-- Advertisements -->
             <li class="menu-header">Advertisements</li>
             <li class="nav-item {{ request()->routeIs('admin.home-ads.*') ? 'active' : '' }}">
@@ -71,13 +64,7 @@
                     <span>Home Ads Management</span>
                 </a>
             </li>
-            <!-- Sliders -->
-            <li class="menu-header">Sliders</li>
-            <li class="nav-item {{ request()->routeIs('sliders.index') ? 'active' : '' }}">
-                <a href="{{ route('sliders.index') }}" class="nav-link"><i class="fas fa-sliders-h"></i>
-                    <span>Sliders</span>
-                </a>
-            </li>
+
             <!-- Tags -->
             <li class="menu-header">Tags</li>
             <li class="nav-item {{ request()->routeIs('tags.index') ? 'active' : '' }}">

@@ -213,8 +213,8 @@ class BlogArticleController extends Controller
     $result = $blogArticle->destroy($id);
 
     if ($result) {
-        return redirect()->route('blog.article.view', ['id' => $article->id])
-    ->with('success', 'Article Created Successfully.');
+        return redirect()->route('blog.article.view', ['id' => $article->category_id])
+    ->with('success', 'Article Deleted Successfully.');
     }
   }
 

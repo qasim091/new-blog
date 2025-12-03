@@ -81,7 +81,7 @@
                                 <div class="tab-content" id="myTabContent2">
                                     <!-- General Settings -->
                                     <div class="tab-pane fade active show" id="general_tab" role="tabpanel">
-                                        <form action="{{ url('/admin/web-setting/' . $webSettings->id) }}" method="POST"
+                                        <form action="{{ url('/admin/web-setting/' . $settings->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
@@ -94,7 +94,7 @@
 
                                             <div class="form-group">
                                                 <label>Meta Description</label>
-                                                <textarea name="meta_description" class="form-control" rows="4">{{ old('meta_description', $settings->meta_description) }}</textarea>
+                                                <textarea id="meta_description" name="meta_description" class="form-control" rows="4">{{ old('meta_description', $settings->meta_description) }}</textarea>
                                             </div>
 
 
@@ -104,7 +104,7 @@
                                     </div>
                                     <!-- Site Info Tab -->
                                     <div class="tab-pane fade" id="site_info_tab" role="tabpanel">
-                                        <form action="{{ url('/admin/web-setting/' . $webSettings->id) }}" method="POST"
+                                        <form action="{{ url('/admin/web-setting/' . $settings->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
@@ -147,7 +147,7 @@
                                     </div>
                                     <!-- Logo & Favicon -->
                                     <div class="tab-pane fade" id="logo_favicon_tab" role="tabpanel">
-                                        <form action="{{ url('/admin/web-setting/' . $webSettings->id) }}" method="POST"
+                                        <form action="{{ url('/admin/web-setting/' . $settings->id) }}" method="POST"
                                             enctype="multipart/form-data" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
@@ -183,7 +183,7 @@
                                     </div>
                                     <!-- Social Media Links -->
                                     <div class="tab-pane fade" id="social_media_tab" role="tabpanel">
-                                        <form action="{{ url('/admin/web-setting/' . $webSettings->id) }}" method="POST"
+                                        <form action="{{ url('/admin/web-setting/' . $settings->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
@@ -217,7 +217,7 @@
                                     </div>
                                     <!-- CopyRight Text -->
                                     <div class="tab-pane fade" id="copyright_text_tab" role="tabpanel">
-                                        <form action="{{ url('/admin/web-setting/' . $webSettings->id) }}" method="POST"
+                                        <form action="{{ url('/admin/web-setting/' . $settings->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
@@ -248,4 +248,39 @@
             });
         }, 5000);
     </script>
+
+<!-- Add CKEditor library -->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#meta_description'), {
+            toolbar: {
+                items: [
+                    'undo', 'redo',
+                    '|', 'heading',
+                    '|', 'bold', 'italic', 'underline',
+                    '|', 'bulletedList', 'numberedList',
+                    '|', 'link', 'insertTable',
+                    '|', 'sourceEditing'
+                ]
+            },
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                ]
+            },
+            placeholder: 'Write meta description here...',
+            removePlugins: ['MediaEmbedToolbar']
+        })
+        .then(editor => {
+            console.log('CKEditor initialized for meta_description');
+            window.metaDescriptionEditor = editor;
+        })
+        .catch(error => {
+            console.error('Error initializing CKEditor:', error);
+        });
+</script>
+
 @endsection

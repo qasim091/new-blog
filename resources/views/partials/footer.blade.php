@@ -5,9 +5,9 @@
     <div class="container mx-auto px-4 py-16">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
             <div>
-                <h3 class="text-2xl font-bold gradient-text-accent mb-4">ModernBlog</h3>
+                <h3 class="text-2xl font-bold gradient-text-accent mb-4">{{$setting->site_title}}</h3>
                 <p class="text-muted-foreground leading-relaxed">
-                    Share your stories, tutorials, and insights with the world.
+                   {!!$setting->meta_description!!}
                 </p>
             </div>
 

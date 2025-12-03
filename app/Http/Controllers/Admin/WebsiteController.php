@@ -10,8 +10,6 @@ use App\Models\Page;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\BlogArticle;
-use App\Models\Slider;
-use App\Models\Banner;
 use App\Models\HomePageCategory;
 use App\Models\BlogCategory;
 use App\Models\DynamicCategory;
@@ -174,8 +172,6 @@ $recentposts = BlogArticle::where('status', '1')
     ->with(['category', 'author'])
     ->orderBy('updated_at', 'desc')
     ->paginate(9); // 9 posts per page to work well with 3-column grid
-    $banner = Banner::first() ?? new Banner(['image' => 'default-banner.jpg']);
-
     // Get active home page ads
     $adsAfter3rd = HomeAd::getActiveAdsByPosition('home_after_3rd');
     $adsAfter7th = HomeAd::getActiveAdsByPosition('home_after_7th');
@@ -185,7 +181,6 @@ $recentposts = BlogArticle::where('status', '1')
         'webPageSchemaMarkup',
         'organizationSchemaMarkup',
         'breadcrumbsMarkup',
-        'banner',
         'page',
         'setting',
         'categories',
@@ -493,6 +488,7 @@ public function bloglist(Request $request, $categorySlug = null)
     $page = Page::where('slug', 'blog-listing')->first();
     $setting = WebSetting::first();
     $site_name = config('seotools.opengraph.defaults.site_name', config('app.name'));
+
     if ($categorySlug) {
         $category = BlogCategory::where('slug', $categorySlug)
             ->where('status', 1)
@@ -520,9 +516,27 @@ public function bloglist(Request $request, $categorySlug = null)
         $bc->instructor = User::find($bc->author_id);
     }
 
-    // $tags = Tags::all();
+    // Get categories for sidebar
     $categories = BlogCategory::orderby('views_count', 'desc')->take(7)->get();
-    $recentposts = BlogArticle::orderby('created_at', 'desc')->take(4)->get();
+
+    // Get recent posts - filtered by category if viewing a specific category
+    if ($categorySlug && isset($category)) {
+        // Show recent posts from the current category only
+        $recentposts = BlogArticle::where('category_id', $category->id)
+            ->where('status', 1)
+            ->orderBy('created_at', 'desc')
+            ->take(9)
+            ->get();
+    } else {
+        // Show recent posts from all categories
+        $recentposts = BlogArticle::where('status', 1)
+            ->whereHas('category', function ($query) {
+                $query->where('status', 1);
+            })
+            ->orderBy('created_at', 'desc')
+            ->take(9)
+            ->get();
+    }
 
     // SEO Meta Info
     $meta_title = $page->page_name ?? "Latest Blog Articles - EstateGuideBlog";
@@ -548,46 +562,44 @@ public function bloglist(Request $request, $categorySlug = null)
     SEOTools::twitter()->setSite('@YourTwitterHandle'); // Replace with real handle
     SEOTools::twitter()->setType('summary_large_image');
 
-
     // Schema: Blog List
     $schema = [
-    "@context" => "https://schema.org",
-    "@type" => "ItemList",
-    "itemListOrder" => "http://schema.org/ItemListOrderDescending",
-    "itemListElement" => []
-];
+        "@context" => "https://schema.org",
+        "@type" => "ItemList",
+        "itemListOrder" => "http://schema.org/ItemListOrderDescending",
+        "itemListElement" => []
+    ];
 
-foreach ($blogs as $index => $blog) {
-    $schema['itemListElement'][] = array_filter([
-        "@type" => "ListItem",
-        "position" => $index + 1,
-        "url" => route('blog.show', $blog->slug),
-        "name" => $blog->title,
-        "description" => $blog->meta_desc ?? $blog->excerpt,
-        "image" => $blog->image ? asset('storage/' . $blog->image) : null,
-        "item" => [
-            "@type" => "Article",
-            "headline" => $blog->title,
+    foreach ($blogs as $index => $blog) {
+        $schema['itemListElement'][] = array_filter([
+            "@type" => "ListItem",
+            "position" => $index + 1,
+            "url" => route('blog.show', $blog->slug),
+            "name" => $blog->title,
             "description" => $blog->meta_desc ?? $blog->excerpt,
-            "datePublished" => $blog->created_at->toIso8601String(),
-            "author" => [
-                "@type" => "Person",
-                "name" => $blog->instructor->name ?? "Admin"
+            "image" => $blog->image ? asset('storage/' . $blog->image) : null,
+            "item" => [
+                "@type" => "Article",
+                "headline" => $blog->title,
+                "description" => $blog->meta_desc ?? $blog->excerpt,
+                "datePublished" => $blog->created_at->toIso8601String(),
+                "author" => [
+                    "@type" => "Person",
+                    "name" => $blog->instructor->name ?? "Admin"
+                ]
             ]
-        ]
-    ]);
-}
+        ]);
+    }
 
-// ✅ Add mainEntity here (AFTER foreach)
-$schema['mainEntity'] = [
-    "@type" => "ItemList",
-    "itemListOrder" => "http://schema.org/ItemListOrderDescending",
-    "numberOfItems" => $blogs->count(),
-];
+    // Add mainEntity
+    $schema['mainEntity'] = [
+        "@type" => "ItemList",
+        "itemListOrder" => "http://schema.org/ItemListOrderDescending",
+        "numberOfItems" => $blogs->count(),
+    ];
 
-// ✅ Now encode it to JSON
-$schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-
+    // Encode schema to JSON
+    $schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
     // Schema: Breadcrumbs
     $breadcrumbs = [
@@ -623,7 +635,7 @@ $schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
     // Get active blog page ads
     $adsAfter3rd = HomeAd::getActiveAdsByPosition('blog_after_3rd');
     $adsAfter7th = HomeAd::getActiveAdsByPosition('blog_after_7th');
-    
+
     // Get category buttons - filter by current category if viewing a specific category
     if ($categorySlug && isset($category)) {
         // Show buttons that are linked to the current category
@@ -638,9 +650,9 @@ $schemaMarkup = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
             ->ordered()
             ->get();
     }
-    
+
     $currentCategory = $categorySlug && isset($category) ? $category : null;
-    
+
     return view("pages.blog.blog", compact(
         'page', 'setting', 'blogs', 'categories', 'recentposts', 'schemaMarkup', 'breadcrumbsMarkup',
         'adsAfter3rd', 'adsAfter7th', 'categoryButtons', 'currentCategory'

@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
       BlogCategorySeeder::class,
       BlogArticleSeeder::class,
       PageSeeder::class,
-      BannerSeeder::class,
       SMTPSettingsSeeder::class,
       HomeAdSeeder::class,
 

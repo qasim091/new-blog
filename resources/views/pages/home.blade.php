@@ -11,19 +11,19 @@
     <section class="relative py-24 md:py-32 lg:py-40 overflow-hidden">
         <!-- Animated background -->
         <div class="absolute inset-0 bg-gradient-to-br from-sky-100/50 via-blue-50/30 to-cyan-100/50 dark:from-slate-800/50 dark:via-blue-900/30 dark:to-slate-700/50"></div>
-        
+
         <!-- Floating elements -->
         <div class="absolute top-20 left-10 w-32 h-32 bg-sky-400/20 rounded-full blur-3xl animate-float animate-glow"></div>
         <div class="absolute bottom-20 right-10 w-40 h-40 bg-blue-400/15 rounded-full blur-3xl animate-float animate-glow" style="animation-delay: 1s"></div>
         <div class="absolute top-40 right-20 w-24 h-24 bg-cyan-400/20 rounded-full blur-3xl animate-float" style="animation-delay: 2s"></div>
-        
+
         <div class="container mx-auto px-4 relative z-10">
             <div class="max-w-5xl mx-auto text-center space-y-10 animate-fade-in">
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-sky-200/50 dark:border-slate-600/50 animate-scale-in">
                     <div class="w-2 h-2 bg-sky-500 rounded-full animate-pulse"></div>
                     <span class="text-sm font-semibold bg-gradient-to-r from-sky-600 to-blue-600 bg-clip-text text-transparent">
-                        Welcome to SkyBlog
+                        Welcome to DailyPkBlog
                     </span>
                 </div>
 
@@ -59,7 +59,7 @@
                 </div>
 
                 <!-- Stats -->
-                <div class="grid grid-cols-3 gap-8 pt-16 max-w-2xl mx-auto">
+                {{-- <div class="grid grid-cols-3 gap-8 pt-16 max-w-2xl mx-auto">
                     <div class="text-center animate-slide-up" style="animation-delay: 0.2s">
                         <div class="text-3xl md:text-4xl font-bold text-sky-600 dark:text-sky-400">50+</div>
                         <div class="text-sm text-slate-600 dark:text-slate-400 font-medium">Articles</div>
@@ -72,7 +72,7 @@
                         <div class="text-3xl md:text-4xl font-bold text-cyan-600 dark:text-cyan-400">5+</div>
                         <div class="text-sm text-slate-600 dark:text-slate-400 font-medium">Categories</div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
@@ -160,28 +160,28 @@
                 Discover articles across different topics and find what interests you most
             </p>
         </div>
-        
+
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach($categories as $index => $category)
             <a href="{{ route('blog.category', $category->slug) }}" class="group bg-white/60 dark:bg-slate-800/60 backdrop-blur-lg p-8 rounded-2xl border border-sky-200/50 dark:border-slate-600/50 text-center hover:bg-white/80 dark:hover:bg-slate-800/80 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300 hover:scale-105 hover:-translate-y-2 animate-scale-in" style="animation-delay: {{ $index * 0.1 }}s">
-                
+
                 <!-- Category Icon -->
                 <div class="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-sky-400 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
                     </svg>
                 </div>
-                
+
                 <!-- Category Name -->
                 <h3 class="font-bold text-lg mb-2 text-slate-800 dark:text-slate-100 group-hover:bg-gradient-to-r group-hover:from-sky-600 group-hover:to-blue-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
                     {{ $category->name }}
                 </h3>
-                
+
                 <!-- Article Count -->
                 <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">
                     {{ $category->count }} articles
                 </p>
-                
+
                 <!-- Hover Arrow -->
                 <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <svg class="w-5 h-5 mx-auto text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -264,7 +264,7 @@
             @endif
             @endforeach
         </div>
-        
+
         <!-- Pagination -->
         @if ($recentposts->hasPages())
             <div class="flex justify-center mt-16">

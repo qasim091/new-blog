@@ -1,4 +1,4 @@
-<a href="{{ route('blog.show', $post->slug) }}" class="glass-card overflow-hidden group block">
+<a href="{{ route('blog.show', $post->slug ? $post->slug : 'admin') }}" class="glass-card overflow-hidden group block">
     <div class="relative overflow-hidden">
         <img src="{{asset('storage/'.$post->image )}}" alt="{{ $post->title }}" class="w-full h-56 object-cover transition-smooth group-hover:scale-110">
         <div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth"></div>

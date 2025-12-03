@@ -15,8 +15,6 @@ use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\FaqsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\SliderController;
-use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserEducationController;
 use App\Http\Controllers\Admin\WebsiteController;
@@ -81,7 +79,7 @@ Route::get('/privacy-policy',[WebsiteController::class, 'privacy'])->name('priva
 Route::get('/terms-and-conditions',[WebsiteController::class, 'termsconditions'])->name('terms-and-conditions');
 Route::get('/about-us',[WebsiteController::class, 'about'])->name('about');
 Route::get('/disclaimer',[WebsiteController::class, 'disclaimer'])->name('disclaimer');
-Route::get('/write-for-us',[WebsiteController::class, 'write'])->name('write-for-us');
+// Route::get('/write-for-us',[WebsiteController::class, 'write'])->name('write-for-us');
 Route::get('/authors/{slug?}', [WebsiteController::class, 'authors'])->name('authors');
 Route::get('/header',function() { return view('sitepartial.header');})->name('header');
 Route::get('/footer',function() { return view('sitepartial.footer');})->name('footer');
@@ -303,24 +301,6 @@ Route::controller(FaqsController::class)->group(function () {
     Route::get('/faqs/edit//{id}', 'edit')->name('faqs.edit')->middleware('checkpermission:edit.faqs');
     Route::put('/faqs/update//{id}', 'update')->name('faqs.update')->middleware('checkpermission:update.faqs');
     Route::delete('/faqs/destroy//{id}', 'destroy')->name('faqs.destroy')->middleware('checkpermission:destroy.faqs');
-});
-    // Banner
-Route::controller(BannerController::class)->group(function () {
-    Route::get('/banners/manage/', 'index')->name('banners.manage')->middleware('checkpermission:view.banners');
-    Route::get('/banners/add/', 'create')->name('banners.create')->middleware('checkpermission:create.banners');
-    Route::post('/banners/store/', 'store')->name('banners.store')->middleware('checkpermission:store.banners');
-    Route::get('/banners/edit/{id}', 'edit')->name('banners.edit')->middleware('checkpermission:edit.banners');
-    Route::put('/banners/update/{id}', 'update')->name('banners.update')->middleware('checkpermission:update.banners');
-    Route::delete('/banners/destroy/{id}', 'destroy')->name('banners.destroy')->middleware('checkpermission:destroy.banners');
-});
-    // Slider
-Route::controller(SliderController::class)->group(function () {
-    Route::get('/sliders/manage', 'index')->name('sliders.index')->middleware('checkpermission:view.sliders');
-    Route::get('/sliders/create', 'create')->name('sliders.create')->middleware('checkpermission:create.sliders');
-    Route::post('/sliders/store', 'store')->name('sliders.store')->middleware('checkpermission:store.sliders');
-    Route::get('/sliders/{id}/edit', 'edit')->name('sliders.edit')->middleware('checkpermission:edit.sliders');
-    Route::put('/sliders/{id}', 'update')->name('sliders.update')->middleware('checkpermission:update.sliders');
-    Route::get('/sliders/{id}', 'destroy')->name('sliders.destroy')->middleware('checkpermission:destroy.sliders');
 });
     // Tags
 Route::controller(TagController::class)->group(function () {

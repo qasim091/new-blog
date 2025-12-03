@@ -1,8 +1,11 @@
 <header class="sticky top-0 z-50 glass-strong border-b shadow-[var(--shadow-subtle)]">
+        @php
+        $setting = App\Models\WebSetting::first();
+    @endphp
     <nav class="container mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
             <a href="{{ route('home') }}" class="text-2xl font-bold gradient-text-accent hover:scale-105 transition-bounce inline-block">
-                Estate Guide Blog
+                {{$setting->site_title}}
             </a>
 
             <!-- Desktop Navigation -->
