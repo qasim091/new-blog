@@ -48,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
     // Custom blade directives //
 
     // Use Tailwind pagination for Laravel 12
-    Paginator::useBootstrap();
+    // Paginator::useBootstrap();
+    Paginator::useTailwind();
   }
 }
